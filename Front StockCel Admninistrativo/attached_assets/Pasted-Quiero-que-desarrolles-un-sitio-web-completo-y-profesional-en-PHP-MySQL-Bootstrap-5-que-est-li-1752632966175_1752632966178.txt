@@ -1,0 +1,157 @@
+Quiero que desarrolles un sitio web completo y profesional en PHP + MySQL + Bootstrap 5, que esté listo para ser alojado en un hosting Linux con Apache y base de datos MySQL. El sistema debe incluir:
+
+======================================
+🧱 TECNOLOGÍAS Y COMPATIBILIDAD
+======================================
+- PHP 7.4+ compatible
+- MySQL
+- Bootstrap 5
+- HTML, CSS, JS
+- Código preparado para subir a un hosting Linux tradicional (como Hostinger)
+- Conexión a base de datos a través de archivo `conexion.php` con datos editables
+
+======================================
+📁 ESTRUCTURA DE ARCHIVOS Y CARPETAS
+======================================
+
+/softwarepar/
+├── index.php                ← Landing pública
+├── login.php                ← Login general
+├── logout.php               ← Cierre de sesión
+├── conexion.php             ← Conexión MySQL (configurable)
+│
+├── /admin/
+│   ├── dashboard.php
+│   ├── usuarios.php
+│   ├── licencias.php
+│   └── clientes.php
+│
+├── /revendedor/
+│   ├── dashboard.php
+│   ├── licencias.php
+│   └── clientes.php
+│
+├── /includes/
+│   ├── header.php
+│   ├── footer.php
+│   ├── sidebar_admin.php
+│   └── sidebar_revendedor.php
+│
+├── /assets/
+│   ├── /css/style.css
+│   ├── /js/scripts.js
+│   └── /img/logo.png
+│
+└── /sql/
+    └── estructura.sql ← Script de creación de base de datos y tablas
+
+======================================
+🌐 LANDING (index.php)
+======================================
+Página moderna con secciones:
+- Inicio, Servicios, Beneficios, Portfolio, Testimonios, Contacto
+- Botón flotante de WhatsApp: +54 11 7062 7214
+- Botón de acceso al login
+- Diseño limpio, animado (AOS), responsive
+
+======================================
+🔐 LOGIN (login.php)
+======================================
+- Sistema de login con PHP seguro
+- Usuarios con roles: admin y revendedor
+- Redirección automática según el rol
+- Validación con `password_hash()` y sesiones
+- logout.php para cerrar sesión limpiamente
+
+======================================
+🔧 PANEL ADMIN
+======================================
+- CRUD de revendedores (`usuarios.php`)
+- Asignar licencias (`licencias.php`)
+- Ver clientes cargados (`clientes.php`)
+- Dashboard con estadísticas
+
+======================================
+👤 PANEL REVENDEDOR
+======================================
+- Ver sus licencias
+- Cargar clientes finales
+- Ver clientes cargados
+- Dashboard propio
+
+======================================
+🗄️ BASE DE DATOS (estructura.sql)
+======================================
+
+CREATE DATABASE softwarepar;
+USE softwarepar;
+
+CREATE TABLE usuarios (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100),
+  email VARCHAR(100) UNIQUE,
+  telefono VARCHAR(20),
+  empresa VARCHAR(100),
+  password VARCHAR(255),
+  rol ENUM('admin', 'revendedor') DEFAULT 'revendedor',
+  fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE licencias (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  id_usuario INT,
+  producto VARCHAR(100),
+  codigo_licencia VARCHAR(100) UNIQUE,
+  estado ENUM('activa', 'vencida', 'suspendida') DEFAULT 'activa',
+  fecha_emision DATETIME DEFAULT CURRENT_TIMESTAMP,
+  fecha_vencimiento DATE,
+  observaciones TEXT,
+  FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
+);
+
+CREATE TABLE clientes_finales (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  id_licencia INT,
+  nombre_cliente VARCHAR(100),
+  email_cliente VARCHAR(100),
+  telefono_cliente VARCHAR(20),
+  domicilio VARCHAR(150),
+  fecha_alta DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (id_licencia) REFERENCES licencias(id)
+);
+
+======================================
+⚙️ conexion.php (editable)
+======================================
+
+<?php
+$host = "localhost";
+$db = "softwarepar";
+$user = "TU_USUARIO";
+$pass = "TU_CONTRASENA";
+
+$conexion = new mysqli($host, $user, $pass, $db);
+if ($conexion->connect_error) {
+    die("Error de conexión: " . $conexion->connect_error);
+}
+?>
+
+(Reemplazá `TU_USUARIO` y `TU_CONTRASENA` por los datos de tu hosting)
+
+======================================
+📦 READY TO DEPLOY
+======================================
+✔️ 100% listo para subir por FTP o administrador de archivos
+✔️ Compatible con cPanel, Hostinger, GoDaddy, DonWeb, etc.
+✔️ Ideal para instalarlo en `/public_html/softwarepar/`
+✔️ Código modular con includes para facilidad de mantenimiento
+
+======================================
+🎯 OBJETIVO FINAL
+======================================
+Una solución profesional que combine:
+✅ Una web comercial para promocionar mis servicios
+✅ Un sistema privado de gestión de revendedores y sus licencias
+✅ Base de datos organizada
+✅ Preparado para producción en servidores Linux con PHP + MySQL
+
